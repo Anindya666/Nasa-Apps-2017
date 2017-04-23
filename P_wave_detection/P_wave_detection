@@ -1,0 +1,55 @@
+#include "Math.h"
+#include "I2Cdev.h"
+#include "MPU6050.h"
+#include "Wire.h"
+#define g0 16033.0
+MPU6050 accelgyro;
+
+int16_t ax, ay, az;
+
+void setup()
+{
+  Wire.begin();
+  Serial.begin(38400);
+ Serial.println("Initializing I2C devices...");
+  accelgyro.initialize();
+
+  // verify connection
+  Serial.println("Testing device connections...");
+  Serial.println(accelgyro.testConnection() ? "MPU6050 connection successful" : "MPU6050 connection failed");
+
+  // use the code below to change accel/gyro offset values
+  Serial.println("Updating internal sensor offsets...");
+  accelgyro.setXAccelOffset(accelgyro.getXAccelOffset());
+  accelgyro.setYAccelOffset(accelgyro.getYAccelOffset());
+  accelgyro.setZAccelOffset(accelgyro.getZAccelOffset());
+  Serial.print("\n\n\n");
+}
+
+void loop() {
+  accelgyro.getAcceleration(&ax, &ay, &az);
+  float accX = ax / g0 * 100;
+  float accY = ay / g0 * 100;
+  float accZ = (az / g0 - 1) * 100;
+
+  accX = abs(accX) - 165;
+  accX = max(0, accX);
+  accY = abs(accY) - 165;
+  accY = max(0, accY);
+  accX /= 47.85;
+  accY /= 47.85;
+  float Resultant = sqrt( accX * accX + accY * accY);
+  if (Resultant)
+    Resultant = .7055 * log(Resultant) + 7.45;
+  Serial.print(accX); Serial.print("\t");
+  Serial.print(accY); Serial.print("\t");
+  Serial.print(accZ); Serial.print("\n");
+
+  if (abs(accZ) < 60)
+    Serial.println(Resultant);
+  else
+    Serial.println("0");
+
+   
+  delay(100);
+}
