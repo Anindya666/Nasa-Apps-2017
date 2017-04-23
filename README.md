@@ -7,4 +7,4 @@ heart_beat_detection: here we are using pulse rate monitor sensor to measure pul
 
 Eq_ResQ: this is the website associated with our system. this will show all the recent earthquake locations and other informations like Richter scale value, RMS speed, number of causulties etc. there will also be option for donating for recent earthquakes.
 
-local server: there will be a local server in every locality.
+local server: there will be a dedicated local server in each zone.They 
