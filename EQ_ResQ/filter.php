@@ -1,24 +1,45 @@
- <?php
-  
- ?>
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 <head>
-<style>
+<title>EQ-ResQ</title>
+<style  type="text/css" >
 body{
 	font-family: "open Sans", sans-serif;
+margin: 0;
+background-color: #eaecee ;
 
 }
-</style>
-<title>EQ-ResQ</title>
-<style>
+.footer{
+background-color:black;
+}
+.head{
+	background-color:;
+}
  table,tr,th,td
  {
-    border: 1px  solid black;
+    border: 1px  solid black;border-collapse:collapse;font-size:25px;
  }
+
+
+
+a{text-decoration:none;}
+
 </style>
 </head>
 <body>
+<div class="head">
+<h1 align='center' ><a href="index.php">EQ-ResQ</a></h1>
+</div>
+<hr>
+<table border="1" width="300" cellpadding="10px">
+		<tr>
+			<td><a href="news.php" >News</a></td>
+			<td><a href="filter.php">Research</a></td>
+			<td><a href="safety.php">Precaution</a></td>
+		</tr>
+		
+</table>
+<hr>
 <form>
 <h1>Search by location</h1>
    <input type="text" name="valuesearch"  placeholder="Value to search"><br><br>
@@ -62,7 +83,18 @@ if(isset($_GET['search']))
   else
   {
 
-	
+	 $query="SELECT * FROM e_data";
+  
+  $db= mysqli_connect("127.0.0.1","root","","eq_resq");
+  $res= mysqli_query($db,$query);
+  
+  $row= mysqli_fetch_assoc($res);
+		if($row==NULL)
+		{
+			echo "null -_- ";
+		}
+		
+	mysqli_close($db);
   
   }
  
@@ -70,6 +102,8 @@ if(isset($_GET['search']))
  while($row != NULL)
  {
 	 echo "
+	
+
 	 <tr>
      <td>".$row['time']."</td>
      <td>".$row['latitude']."</td>
@@ -80,8 +114,6 @@ if(isset($_GET['search']))
      <td>".$row['place']."</td>
      
  </tr>";
-	 
-	 
 	 $row= mysqli_fetch_assoc($res);
  }
  
@@ -89,5 +121,11 @@ if(isset($_GET['search']))
 
 </table>
 </form>
+<div class="footer">
+<h2 style="color:white;">Contact:<h2>
+<p style="text-align:right; color:white;"><a href="fb.com">click here to download our app</a></p>
+<p style="text-align:left; color:white;">Address:7/A,Dhanmondi,Dhaka</p>
+<p style="text-align:left; color:white;">Phone: 01717XXXXXX</p>
+</div>
 </body>
 </html> 
